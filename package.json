@@ -28,7 +28,11 @@
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
-    "webtorrent": "^2.1.32"
+    "webtorrent": "^2.1.32",
+    "xgplayer": "^3.0.20",
+    "xgplayer-flv": "^3.0.20",
+    "xgplayer-hls": "^3.0.20",
+    "xgplayer-mp4": "^3.0.20"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
