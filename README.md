@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CZL在线工具箱
 
-## Getting Started
+一个功能丰富的在线工具集合网站，提供多种实用工具和视频播放器，让您的工作更轻松高效。
 
-First, run the development server:
+## 🌟 主要功能
 
+### 视频播放器
+- **XGPlayer** - 西瓜视频开源播放器
+- **AliPlayer** - 阿里云播放器
+- **CKPlayer** - 功能强大的 HTML5 播放器
+- **DPlayer** - 支持弹幕的 HTML5 视频播放器
+
+所有播放器均支持：
+- 多种视频格式（m3u8、mp4、flv 等）
+- 自动识别编码的视频链接
+- 新标签页打开播放
+- 响应式布局设计
+
+### 实用工具
+- **流量换算器** - 在 KB、MB、GB、TB 之间轻松转换
+- **时间换算器** - 便捷的时间单位转换工具
+- **抖音图集下载** - 轻松下载抖音图集
+- **GitHub加速** - 优化 GitHub 访问速度
+
+### 图片工具
+- **SVG转换器** - SVG 代码转图片工具
+- **腾讯图片链接转换** - 腾讯图片链接处理工具
+
+### 运维工具
+- **EdgeOne缓存清理** - EdgeOne CDN 缓存清理工具
+- **Cloudflare缓存清理** - Cloudflare CDN 缓存清理工具
+- **Docker镜像服务** - Docker 镜像相关服务
+
+## 💻 技术栈
+
+- **前端框架**: Next.js 14
+- **UI组件**: shadcn/ui
+- **样式方案**: Tailwind CSS
+- **开发语言**: TypeScript
+- **包管理器**: pnpm
+
+## 🚀 本地开发
+
+1. 克隆项目
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/woodchen-ink/onepage.git
+cd onepage
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. 安装依赖
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. 启动开发服务器
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. 打开浏览器访问 `http://localhost:3000`
 
-## Learn More
+## 📦 部署
 
-To learn more about Next.js, take a look at the following resources:
+项目可以轻松部署到 Vercel：
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/woodchen-ink/onepage)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🤝 贡献
 
-## Deploy on Vercel
+欢迎提交 Issue 和 Pull Request！
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📝 开源协议
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+本项目采用 [MIT](LICENSE) 协议。
+
+## 🔗 相关链接
+
+- [Q58论坛](https://q58.club) - 技术支持
