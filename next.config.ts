@@ -1,6 +1,13 @@
 import { NextConfig } from 'next'
 
 const config: NextConfig = {
+  output: 'export',
+  distDir: 'out',
+  images: {
+    unoptimized: true
+  },
+  // 确保静态资源的正确加载
+  assetPrefix: process.env.NODE_ENV === 'production' ? '.' : '',
   trailingSlash: true,
   async rewrites() {
     return [
