@@ -1,0 +1,10 @@
+.tools-content .bg-card {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(8px);
+}
+
+/* 保持内部卡片的原始样式 */
+.tools-content .bg-card .bg-muted {
+  background-color: hsl(var(--muted));
+  backdrop-filter: none;
+} 
