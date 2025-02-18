@@ -1,4 +1,4 @@
-import { NextConfig } from 'next'
+import type { NextConfig } from 'next'
 
 const config: NextConfig = {
   output: 'export',
@@ -7,41 +7,10 @@ const config: NextConfig = {
     unoptimized: true
   },
   // 确保静态资源的正确加载
-  assetPrefix: process.env.NODE_ENV === 'production' ? '.' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/' : '',
   trailingSlash: true,
-  async rewrites() {
-    return [
-      {
-        source: '/dplayer/:path*',
-        destination: '/dplayer/',
-      },
-      {
-        source: '/aliplayer/:path*',
-        destination: '/aliplayer/',
-      },
-      {
-        source: '/ckplayer/:path*',
-        destination: '/ckplayer/',
-      },
-      {
-        source: '/xgplayer/:path*',
-        destination: '/xgplayer/',
-      },
-    ]
-  },
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Access-Control-Allow-Origin',
-            value: '*',
-          },
-        ],
-      },
-    ]
-  },
+  // 静态导出模式下不支持这些配置
+  // rewrites() 和 headers() 需要在 EdgeOne Pages 的配置中设置
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
