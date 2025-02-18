@@ -4,6 +4,48 @@
   "installCommand": "npm install",
   "outputDirectory": "./out",
   "nodeVersion": "22.11.0",
+  "redirects": [
+    {
+      "source": "/tools/shijian.html",
+      "destination": "/tools/shijian/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tools/liuliang.html",
+      "destination": "/tools/liuliang/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tools/eo_cleancache.html",
+      "destination": "/tools/eo_cleancache/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tools/docker_mirror.html",
+      "destination": "/tools/docker_mirror/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tools/douyin_download.html",
+      "destination": "/tools/douyin_download/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tools/svgimg.html",
+      "destination": "/tools/svgimg/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tools/github_proxy.html",
+      "destination": "/tools/github_proxy/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tools/cloudflare_cache_cleaner.html",
+      "destination": "/tools/cloudflare_cache_cleaner/",
+      "statusCode": 301
+    }
+  ],
   "rewrites": [
     {
       "source": "/dplayer/*",
