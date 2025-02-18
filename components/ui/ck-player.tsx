@@ -38,9 +38,21 @@ interface CKPlayerConfig {
 declare global {
   interface Window {
     ckplayer: {
-      new (config: CKPlayerConfig): any
+      new (config: CKPlayerConfig): CKPlayerInstance
     }
   }
+}
+
+interface CKPlayerInstance {
+  destroy(): void
+  pause(): void
+  play(): void
+  volume(value: number): void
+  time(value: number): void
+  muted(value: boolean): void
+  ended: boolean
+  duration: number
+  currentTime: number
 }
 
 export function CKPlayer({ url: encodedUrl, className }: CKPlayerProps) {

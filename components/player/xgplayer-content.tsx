@@ -4,8 +4,9 @@ import { XGPlayer } from '@/components/ui/xg-player'
 import { useSearchParams } from 'next/navigation'
 import { VideoUrlInput } from './video-url-input'
 import { NavBar } from '@/components/layout/nav-bar'
+import { Suspense } from 'react'
 
-export function XGPlayerContent() {
+function PlayerContent() {
   const searchParams = useSearchParams()
   const url = searchParams.get('url')
 
@@ -50,5 +51,13 @@ export function XGPlayerContent() {
         </div>
       </div>
     </>
+  )
+}
+
+export function XGPlayerContent() {
+  return (
+    <Suspense>
+      <PlayerContent />
+    </Suspense>
   )
 } 

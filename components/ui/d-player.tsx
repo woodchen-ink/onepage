@@ -19,6 +19,14 @@ interface DPlayerInstance {
 
 type PreloadType = 'none' | 'metadata' | 'auto'
 
+interface VideoSource {
+  video?: {
+    url: string
+    type?: string
+  }
+  url?: string
+}
+
 interface DPlayerOptions {
   container: HTMLElement
   autoplay?: boolean
@@ -65,7 +73,9 @@ export function VideoPlayer({ url: encodedUrl, className }: VideoPlayerProps) {
       if (url.includes('.m3u8')) {
         type = 'customHls'
         customType[type] = function(video: HTMLVideoElement, src: unknown) {
-          const videoUrl = typeof src === 'object' && src !== null ? (src as any).video?.url || url : String(src)
+          const videoUrl = typeof src === 'object' && src !== null 
+            ? ((src as VideoSource).video?.url || (src as VideoSource).url || url) 
+            : String(src)
           const hls = new Hls.default({
             xhrSetup: function(xhr) {
               xhr.withCredentials = false
@@ -80,7 +90,9 @@ export function VideoPlayer({ url: encodedUrl, className }: VideoPlayerProps) {
       } else if (url.includes('.flv')) {
         type = 'customFlv'
         customType[type] = function(video: HTMLVideoElement, src: unknown) {
-          const videoUrl = typeof src === 'object' && src !== null ? (src as any).video?.url || url : String(src)
+          const videoUrl = typeof src === 'object' && src !== null 
+            ? ((src as VideoSource).video?.url || (src as VideoSource).url || url) 
+            : String(src)
           const flvPlayer = Flv.default.createPlayer({
             type: 'flv',
             url: videoUrl
@@ -94,7 +106,9 @@ export function VideoPlayer({ url: encodedUrl, className }: VideoPlayerProps) {
       } else if (url.includes('.mpd')) {
         type = 'customDash'
         customType[type] = function(video: HTMLVideoElement, src: unknown) {
-          const videoUrl = typeof src === 'object' && src !== null ? (src as any).video?.url || url : String(src)
+          const videoUrl = typeof src === 'object' && src !== null 
+            ? ((src as VideoSource).video?.url || (src as VideoSource).url || url) 
+            : String(src)
           const dashPlayer = Dash.MediaPlayer().create()
           dashPlayer.initialize(video, videoUrl, true)
           cleanup = () => {

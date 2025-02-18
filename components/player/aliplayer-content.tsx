@@ -4,8 +4,9 @@ import { AliPlayer } from '@/components/ui/ali-player'
 import { useSearchParams } from 'next/navigation'
 import { VideoUrlInput } from './video-url-input'
 import { NavBar } from '@/components/layout/nav-bar'
+import { Suspense } from 'react'
 
-export function AliPlayerContent() {
+function PlayerContent() {
   const searchParams = useSearchParams()
   const url = searchParams.get('url')
 
@@ -25,5 +26,13 @@ export function AliPlayerContent() {
     <div className="h-screen w-screen bg-black">
       <AliPlayer url={url} className="h-full w-full" />
     </div>
+  )
+}
+
+export function AliPlayerContent() {
+  return (
+    <Suspense>
+      <PlayerContent />
+    </Suspense>
   )
 } 

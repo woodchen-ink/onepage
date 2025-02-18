@@ -4,8 +4,9 @@ import { CKPlayer } from '@/components/ui/ck-player'
 import { useSearchParams } from 'next/navigation'
 import { VideoUrlInput } from './video-url-input'
 import { NavBar } from '@/components/layout/nav-bar'
+import { Suspense } from 'react'
 
-export function CKPlayerContent() {
+function PlayerContent() {
   const searchParams = useSearchParams()
   const url = searchParams.get('url')
 
@@ -25,5 +26,13 @@ export function CKPlayerContent() {
     <div className="h-screen w-screen bg-black">
       <CKPlayer url={url} className="h-full w-full" />
     </div>
+  )
+}
+
+export function CKPlayerContent() {
+  return (
+    <Suspense>
+      <PlayerContent />
+    </Suspense>
   )
 } 
