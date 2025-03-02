@@ -21,24 +21,6 @@ export default function RootLayout({
           data-website-id="0798c98d-ae45-4530-bd46-52465a66f3c3"
           strategy="afterInteractive"
         />
-        <Script
-          id="font-loader"
-          strategy="beforeInteractive"
-        >
-          {`
-            (function() {
-              var ua = navigator.userAgent;
-              var isMobile = /iPhone|iPad|iPod|Android/i.test(ua);
-              var isApple = /iPhone|iPad|iPod/i.test(ua);
-              if (!isMobile && !isApple) {
-                var link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = 'https://i.czl.net/g-f/frame/czlfonts/slice/font.css';
-                document.head.appendChild(link);
-              }
-            })();
-          `}
-        </Script>
       </head>
       <body className="antialiased">{children}</body>
     </html>
