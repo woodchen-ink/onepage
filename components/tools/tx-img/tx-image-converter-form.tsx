@@ -59,7 +59,11 @@ export function TxImageConverterForm() {
       const data: ConversionResponse = await response.json();
 
       if (data.code === 200 && data.url) {
-        setResult(data.url);
+        let convertedUrl = data.url;
+        if (convertedUrl.startsWith('http://')) {
+          convertedUrl = 'https://' + convertedUrl.substring(7);
+        }
+        setResult(convertedUrl);
         toast({
           title: "成功",
           description: "图片链接转换成功",
