@@ -169,8 +169,8 @@ export function TimeConverterForm() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="flex gap-4">
-          <div className="w-1/3">
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="w-full md:w-1/3">
             <Input
               type="number"
               value={value}
@@ -178,17 +178,19 @@ export function TimeConverterForm() {
               placeholder="请输入数值"
             />
           </div>
-          <Tabs value={unit} onValueChange={handleUnitChange} className="flex-1">
-            <TabsList className="grid w-full grid-cols-9">
-              <TabsTrigger value="微秒">微秒</TabsTrigger>
-              <TabsTrigger value="毫秒">毫秒</TabsTrigger>
-              <TabsTrigger value="秒">秒</TabsTrigger>
-              <TabsTrigger value="分钟">分钟</TabsTrigger>
-              <TabsTrigger value="小时">小时</TabsTrigger>
-              <TabsTrigger value="天">天</TabsTrigger>
-              <TabsTrigger value="星期">星期</TabsTrigger>
-              <TabsTrigger value="月">月</TabsTrigger>
-              <TabsTrigger value="年">年</TabsTrigger>
+          <Tabs value={unit} onValueChange={handleUnitChange} className="flex-1 w-full">
+            <TabsList className="w-full">
+              <div className="flex w-full overflow-x-auto pb-1">
+                <TabsTrigger value="微秒" className="min-w-fit">微秒</TabsTrigger>
+                <TabsTrigger value="毫秒" className="min-w-fit">毫秒</TabsTrigger>
+                <TabsTrigger value="秒" className="min-w-fit">秒</TabsTrigger>
+                <TabsTrigger value="分钟" className="min-w-fit">分钟</TabsTrigger>
+                <TabsTrigger value="小时" className="min-w-fit">小时</TabsTrigger>
+                <TabsTrigger value="天" className="min-w-fit">天</TabsTrigger>
+                <TabsTrigger value="星期" className="min-w-fit">星期</TabsTrigger>
+                <TabsTrigger value="月" className="min-w-fit">月</TabsTrigger>
+                <TabsTrigger value="年" className="min-w-fit">年</TabsTrigger>
+              </div>
             </TabsList>
           </Tabs>
         </div>

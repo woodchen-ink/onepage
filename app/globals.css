@@ -73,3 +73,28 @@ html, body {
     @apply bg-background text-foreground;
   }
 }
+
+/* 隐藏滚动条但保持功能 */
+@layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+  
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;             /* Chrome, Safari, Opera */
+  }
+}
+
+/* 移动端Tabs适配 */
+@media (max-width: 768px) {
+  [role="tablist"] > div {
+    padding-bottom: 0.25rem;
+  }
+  
+  [role="tab"] {
+    min-width: fit-content;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
