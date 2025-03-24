@@ -54,14 +54,26 @@ export function NavBar() {
               ))}
             </div>
           </div>
-          <div className="sm:hidden flex items-center">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
+          <div className="flex items-center">
+            <div className="hidden sm:block">
+              <Link
+                href="https://www.q58.club/t/topic/364"
+                target="_blank"
+              >
+                <Button variant="default" size="sm" className="font-medium">
+                  留言反馈
+                </Button>
+              </Link>
+            </div>
+            <div className="sm:hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -95,6 +107,17 @@ export function NavBar() {
                 })}
               </div>
             ))}
+            <div className="border-t border-border mt-2 pt-2">
+              <Link
+                href="https://www.q58.club/t/topic/364"
+                target="_blank"
+                className="block px-4 py-2"
+              >
+                <Button variant="default" className="w-full font-medium">
+                  留言反馈
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       )}

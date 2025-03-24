@@ -71,6 +71,12 @@ export const tools: ToolSection[] = [
         href: "/tools/github_proxy", 
         icon: Link
       },
+      
+      { 
+        name: "在线印章生成工具(做旧,防伪等)仅测试", 
+        href: "/tools/seal_generation", 
+        icon: Image
+      },
     ],
   },
   {
@@ -85,6 +91,26 @@ export const tools: ToolSection[] = [
         name: "腾讯图片链接转换", 
         href: "/tools/tx_img", 
         icon: FileImage
+      },
+      { 
+        name: "封面生成工具", 
+        href: "/tools/coverview", 
+        icon: Image
+      },
+      { 
+        name: "印章提取工具", 
+        href: "/tools/extractstamp", 
+        icon: FileImage
+      },
+      { 
+        name: "图片压缩工具", 
+        href: "/tools/squoosh", 
+        icon: Image
+      },
+      { 
+        name: "图片加水印", 
+        href: "/tools/watermark", 
+        icon: Image
       },
     ],
   },
