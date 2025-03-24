@@ -26,7 +26,7 @@ export default function ExtractStampPage() {
               strategy="beforeInteractive"
             />
             <IframeComponent 
-              src="/tools/extractstamp/index.html" 
+              src="/tools/extractstamp/extractstamp.html" 
               title="印章提取工具" 
               height="100%"
               allowFullScreen={true}
