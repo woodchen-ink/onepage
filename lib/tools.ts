@@ -1,4 +1,4 @@
-import { Video, Image, Calculator, Clock, Download, Link, FileImage, Trash2 } from "lucide-react";
+import { Video, Image, Calculator, Clock, Download, Link, FileImage, Trash2, AppWindow } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 
 export interface ToolItem {
@@ -105,6 +105,16 @@ export const tools: ToolSection[] = [
         name: "Docker镜像服务", 
         href: "/tools/docker_mirror", 
         icon: Image
+      },
+    ],
+  },
+  {
+    name: "SEO工具",
+    items: [
+      { 
+        name: "提交URL到bing", 
+        href: "/tools/submiturl_bing", 
+        icon: AppWindow
       },
     ],
   },
