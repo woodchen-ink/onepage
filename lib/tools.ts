@@ -1,4 +1,4 @@
-import { Video, Image, Calculator, Clock, Download, Link, FileImage, Trash2, AppWindow } from "lucide-react";
+import { Video, Image, Calculator, Clock, Download, Link, FileImage, Trash2, AppWindow, Globe } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 
 export interface ToolItem {
@@ -131,6 +131,11 @@ export const tools: ToolSection[] = [
         name: "Docker镜像服务", 
         href: "/tools/docker_mirror", 
         icon: Image
+      },
+      { 
+        name: "IP位置信息查询", 
+        href: "/tools/ip_query", 
+        icon: Globe
       },
     ],
   },
