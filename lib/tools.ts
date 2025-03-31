@@ -1,4 +1,4 @@
-import { Video, Image, Calculator, Clock, Download, Link, FileImage, Trash2, AppWindow, Globe } from "lucide-react";
+import { Video, Image, Calculator, Clock, Download, Link, FileImage, Trash2, AppWindow, Globe, Server } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 
 export interface ToolItem {
@@ -161,6 +161,31 @@ export const tools: ToolSection[] = [
         name: "随机视频", 
         href: "/fun/random_video", 
         icon: Video
+      },
+    ],
+  },
+  {
+    name: "VPS",
+    items: [
+      { 
+        name: "热门VPS促销", 
+        href: "/tools/vps_monit", 
+        icon: Server
+      },
+      { 
+        name: "RackNerd促销", 
+        href: "/tools/vps_monit_racknerd", 
+        icon: Server
+      },
+      { 
+        name: "DMIT促销", 
+        href: "/tools/vps_monit_dmit", 
+        icon: Server
+      },
+      { 
+        name: "搬瓦工促销", 
+        href: "/tools/vps_monit_bandwagonhost", 
+        icon: Server
       },
     ],
   },
