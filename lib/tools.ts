@@ -187,6 +187,11 @@ export const tools: ToolSection[] = [
         href: "/tools/vps_monit_bandwagonhost", 
         icon: Server
       },
+      { 
+        name: "CloudCone促销", 
+        href: "/tools/vps_monit_cloudcone", 
+        icon: Server
+      },
     ],
   },
 ]; 
