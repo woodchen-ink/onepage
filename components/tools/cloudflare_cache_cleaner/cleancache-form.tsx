@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Save, Trash, CheckCircle2, XCircle } from "lucide-react";
+import { Save, Trash, CheckCircle2, XCircle, Pencil } from "lucide-react";
 
 interface SavedProfile {
   id: string;
@@ -38,6 +38,7 @@ export function CleanCacheForm() {
   const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>([]);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [profileName, setProfileName] = useState("");
+  const [editingProfileId, setEditingProfileId] = useState<string | null>(null);
   const [urls, setUrls] = useState("");
   const [tags, setTags] = useState("");
   const [hosts, setHosts] = useState("");
@@ -71,24 +72,59 @@ export function CleanCacheForm() {
       return;
     }
 
-    const newProfile: SavedProfile = {
-      id: Date.now().toString(),
-      name: profileName,
-      email,
-      apiKey,
-      zoneId,
-    };
+    let updatedProfiles: SavedProfile[];
+    
+    if (editingProfileId) {
+      // 编辑现有配置
+      updatedProfiles = savedProfiles.map(profile => {
+        if (profile.id === editingProfileId) {
+          return {
+            ...profile,
+            name: profileName,
+            email,
+            apiKey,
+            zoneId
+          };
+        }
+        return profile;
+      });
+      
+      toast({
+        title: "成功",
+        description: "配置已更新",
+      });
+    } else {
+      // 添加新配置
+      const newProfile: SavedProfile = {
+        id: Date.now().toString(),
+        name: profileName,
+        email,
+        apiKey,
+        zoneId,
+      };
+      
+      updatedProfiles = [...savedProfiles, newProfile];
+      
+      toast({
+        title: "成功",
+        description: "配置已保存",
+      });
+    }
 
-    const updatedProfiles = [...savedProfiles, newProfile];
     setSavedProfiles(updatedProfiles);
     localStorage.setItem("cf_profiles", JSON.stringify(updatedProfiles));
     setSaveDialogOpen(false);
     setProfileName("");
+    setEditingProfileId(null);
+  };
 
-    toast({
-      title: "成功",
-      description: "配置已保存",
-    });
+  const editProfile = (profile: SavedProfile) => {
+    setProfileName(profile.name);
+    setEmail(profile.email);
+    setApiKey(profile.apiKey);
+    setZoneId(profile.zoneId);
+    setEditingProfileId(profile.id);
+    setSaveDialogOpen(true);
   };
 
   const loadProfile = (profile: SavedProfile) => {
@@ -235,7 +271,7 @@ export function CleanCacheForm() {
       <CardHeader>
         <CardTitle>Cloudflare 缓存清理工具</CardTitle>
         <CardDescription>
-          提供快速便捷的Cloudflare缓存清理功能，支持按URL、标签、主机、前缀清理，以及清理全部缓存。数据保存在浏览器本地，不会上传到任何服务器。
+          数据保存在浏览器本地，不会上传到任何服务器。
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -248,7 +284,11 @@ export function CleanCacheForm() {
               </div>
               <Button
                 variant="outline"
-                onClick={() => setSaveDialogOpen(true)}
+                onClick={() => {
+                  setProfileName("");
+                  setEditingProfileId(null);
+                  setSaveDialogOpen(true);
+                }}
                 className="h-8"
               >
                 <Save className="w-4 h-4 mr-2" />
@@ -272,17 +312,30 @@ export function CleanCacheForm() {
                     >
                       {profile.name}
                     </button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deleteProfile(profile.id);
-                      }}
-                      className="h-6 w-6 opacity-0 group-hover:opacity-100"
-                    >
-                      <Trash className="w-4 h-4 text-destructive" />
-                    </Button>
+                    <div className="flex opacity-0 group-hover:opacity-100">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          editProfile(profile);
+                        }}
+                        className="h-6 w-6"
+                      >
+                        <Pencil className="w-4 h-4 text-muted-foreground" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteProfile(profile.id);
+                        }}
+                        className="h-6 w-6"
+                      >
+                        <Trash className="w-4 h-4 text-destructive" />
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -510,9 +563,9 @@ export function CleanCacheForm() {
         </Dialog>
 
         <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
-          <DialogContent>
+          <DialogContent className="max-w-lg">
             <DialogHeader>
-              <DialogTitle>保存配置</DialogTitle>
+              <DialogTitle>{editingProfileId ? "编辑配置" : "保存配置"}</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
               <div className="space-y-2">
@@ -523,12 +576,44 @@ export function CleanCacheForm() {
                   placeholder="请输入配置名称"
                 />
               </div>
+              
+              <div className="space-y-2">
+                <Label>Email</Label>
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label>API Token</Label>
+                <Input
+                  type="password"
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  placeholder="请输入 API Token"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label>Zone ID</Label>
+                <Input
+                  value={zoneId}
+                  onChange={(e) => setZoneId(e.target.value)}
+                  placeholder="请输入 Zone ID"
+                />
+              </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setSaveDialogOpen(false)}>
+              <Button variant="outline" onClick={() => {
+                setSaveDialogOpen(false);
+                setEditingProfileId(null);
+              }}>
                 取消
               </Button>
-              <Button onClick={saveProfile}>保存</Button>
+              <Button onClick={saveProfile}>{editingProfileId ? "更新" : "保存"}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

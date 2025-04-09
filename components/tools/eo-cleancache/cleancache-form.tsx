@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Save, Trash, CheckCircle2, XCircle } from "lucide-react";
+import { Save, Trash, CheckCircle2, XCircle, Pencil } from "lucide-react";
 
 interface SavedConfig {
   id: string;
@@ -41,6 +41,7 @@ export function CleanCacheForm() {
   const [savedConfigs, setSavedConfigs] = useState<SavedConfig[]>([]);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [configName, setConfigName] = useState("");
+  const [editingConfigId, setEditingConfigId] = useState<string | null>(null);
   const [urls, setUrls] = useState("");
   const [prefixes, setPrefixes] = useState("");
   const [hosts, setHosts] = useState("");
@@ -74,24 +75,59 @@ export function CleanCacheForm() {
       return;
     }
 
-    const newConfig: SavedConfig = {
-      id: Date.now().toString(),
-      name: configName,
-      secretId,
-      secretKey,
-      zoneId,
-    };
+    let updatedConfigs: SavedConfig[];
+    
+    if (editingConfigId) {
+      // 编辑现有配置
+      updatedConfigs = savedConfigs.map(config => {
+        if (config.id === editingConfigId) {
+          return {
+            ...config,
+            name: configName,
+            secretId,
+            secretKey,
+            zoneId
+          };
+        }
+        return config;
+      });
+      
+      toast({
+        title: "成功",
+        description: "配置已更新",
+      });
+    } else {
+      // 添加新配置
+      const newConfig: SavedConfig = {
+        id: Date.now().toString(),
+        name: configName,
+        secretId,
+        secretKey,
+        zoneId,
+      };
+      
+      updatedConfigs = [...savedConfigs, newConfig];
+      
+      toast({
+        title: "成功",
+        description: "配置已保存",
+      });
+    }
 
-    const updatedConfigs = [...savedConfigs, newConfig];
     setSavedConfigs(updatedConfigs);
     localStorage.setItem("savedConfigs", JSON.stringify(updatedConfigs));
     setSaveDialogOpen(false);
     setConfigName("");
+    setEditingConfigId(null);
+  };
 
-    toast({
-      title: "成功",
-      description: "配置已保存",
-    });
+  const editConfig = (config: SavedConfig) => {
+    setConfigName(config.name);
+    setSecretId(config.secretId);
+    setSecretKey(config.secretKey);
+    setZoneId(config.zoneId);
+    setEditingConfigId(config.id);
+    setSaveDialogOpen(true);
   };
 
   const loadConfig = (config: SavedConfig) => {
@@ -245,7 +281,7 @@ export function CleanCacheForm() {
       <CardHeader>
         <CardTitle>腾讯云EdgeOne缓存刷新工具</CardTitle>
         <CardDescription>
-          单页面清理腾讯云EdgeOne缓存，提供快速便捷的缓存刷新功能，支持URL、目录、Host、全部以及基于缓存标签的刷新操作。数据保存在浏览器本地，不会上传到任何服务器。
+          数据保存在浏览器本地，不会上传到任何服务器。
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -258,7 +294,11 @@ export function CleanCacheForm() {
               </div>
               <Button
                 variant="outline"
-                onClick={() => setSaveDialogOpen(true)}
+                onClick={() => {
+                  setConfigName("");
+                  setEditingConfigId(null);
+                  setSaveDialogOpen(true);
+                }}
                 className="h-8"
               >
                 <Save className="w-4 h-4 mr-2" />
@@ -282,17 +322,30 @@ export function CleanCacheForm() {
                     >
                       {config.name}
                     </button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deleteConfig(config.id);
-                      }}
-                      className="h-6 w-6 opacity-0 group-hover:opacity-100"
-                    >
-                      <Trash className="w-4 h-4 text-destructive" />
-                    </Button>
+                    <div className="flex opacity-0 group-hover:opacity-100">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          editConfig(config);
+                        }}
+                        className="h-6 w-6"
+                      >
+                        <Pencil className="w-4 h-4 text-muted-foreground" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteConfig(config.id);
+                        }}
+                        className="h-6 w-6"
+                      >
+                        <Trash className="w-4 h-4 text-destructive" />
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -532,9 +585,9 @@ export function CleanCacheForm() {
         </Dialog>
 
         <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
-          <DialogContent>
+          <DialogContent className="max-w-lg">
             <DialogHeader>
-              <DialogTitle>保存配置</DialogTitle>
+              <DialogTitle>{editingConfigId ? "编辑配置" : "保存配置"}</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
               <div className="space-y-2">
@@ -545,12 +598,43 @@ export function CleanCacheForm() {
                   placeholder="请输入配置名称"
                 />
               </div>
+              
+              <div className="space-y-2">
+                <Label>SecretId</Label>
+                <Input
+                  value={secretId}
+                  onChange={(e) => setSecretId(e.target.value)}
+                  placeholder="请输入 SecretId"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label>SecretKey</Label>
+                <Input
+                  type="password"
+                  value={secretKey}
+                  onChange={(e) => setSecretKey(e.target.value)}
+                  placeholder="请输入 SecretKey"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label>ZoneId</Label>
+                <Input
+                  value={zoneId}
+                  onChange={(e) => setZoneId(e.target.value)}
+                  placeholder="请输入 ZoneId"
+                />
+              </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setSaveDialogOpen(false)}>
+              <Button variant="outline" onClick={() => {
+                setSaveDialogOpen(false);
+                setEditingConfigId(null);
+              }}>
                 取消
               </Button>
-              <Button onClick={saveConfig}>保存</Button>
+              <Button onClick={saveConfig}>{editingConfigId ? "更新" : "保存"}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
