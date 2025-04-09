@@ -17,7 +17,6 @@ interface SavedConfig {
   secretId: string;
   secretKey: string;
   zoneId: string;
-  note?: string;
 }
 
 interface EOApiResponse {
@@ -36,7 +35,6 @@ export function CleanCacheForm() {
   const [secretId, setSecretId] = useState("");
   const [secretKey, setSecretKey] = useState("");
   const [zoneId, setZoneId] = useState("");
-  const [note, setNote] = useState("");
   const [loading, setLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [result, setResult] = useState<EOApiResponse | null>(null);
@@ -82,7 +80,6 @@ export function CleanCacheForm() {
       secretId,
       secretKey,
       zoneId,
-      note,
     };
 
     const updatedConfigs = [...savedConfigs, newConfig];
@@ -101,7 +98,6 @@ export function CleanCacheForm() {
     setSecretId(config.secretId);
     setSecretKey(config.secretKey);
     setZoneId(config.zoneId);
-    setNote(config.note || "");
 
     toast({
       title: "成功",
@@ -285,11 +281,6 @@ export function CleanCacheForm() {
                       className="flex-1 text-left text-sm font-medium"
                     >
                       {config.name}
-                      {config.note && (
-                        <span className="block text-xs text-muted-foreground">
-                          {config.note}
-                        </span>
-                      )}
                     </button>
                     <Button
                       variant="ghost"
@@ -356,15 +347,6 @@ export function CleanCacheForm() {
                 https://console.cloud.tencent.com/edgeone/zones
               </a>
             </p>
-          </div>
-
-          <div className="space-y-2">
-            <Label>备注</Label>
-            <Input
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              placeholder="可选"
-            />
           </div>
         </div>
 

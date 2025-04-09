@@ -17,7 +17,6 @@ interface SavedProfile {
   email: string;
   apiKey: string;
   zoneId: string;
-  note?: string;
 }
 
 interface ApiResponse {
@@ -33,7 +32,6 @@ export function CleanCacheForm() {
   const [email, setEmail] = useState("");
   const [apiKey, setApiKey] = useState("");
   const [zoneId, setZoneId] = useState("");
-  const [note, setNote] = useState("");
   const [loading, setLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [result, setResult] = useState<ApiResponse | null>(null);
@@ -79,7 +77,6 @@ export function CleanCacheForm() {
       email,
       apiKey,
       zoneId,
-      note,
     };
 
     const updatedProfiles = [...savedProfiles, newProfile];
@@ -98,7 +95,6 @@ export function CleanCacheForm() {
     setEmail(profile.email);
     setApiKey(profile.apiKey);
     setZoneId(profile.zoneId);
-    setNote(profile.note || "");
 
     toast({
       title: "成功",
@@ -275,11 +271,6 @@ export function CleanCacheForm() {
                       className="flex-1 text-left text-sm font-medium"
                     >
                       {profile.name}
-                      {profile.note && (
-                        <span className="block text-xs text-muted-foreground">
-                          {profile.note}
-                        </span>
-                      )}
                     </button>
                     <Button
                       variant="ghost"
@@ -341,15 +332,6 @@ export function CleanCacheForm() {
               value={zoneId}
               onChange={(e) => setZoneId(e.target.value)}
               placeholder="请输入 Zone ID"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label>备注</Label>
-            <Input
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              placeholder="可选"
             />
           </div>
         </div>
