@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
@@ -16,6 +17,7 @@ interface SavedConfig {
   secretId: string;
   secretKey: string;
   zoneId: string;
+  note?: string;
 }
 
 interface EOApiResponse {
@@ -30,25 +32,21 @@ interface EOApiResponse {
   };
 }
 
-const examples = {
-  url: "https://test.czl.net/123.txt",
-  prefix: "https://test.czl.net/book/",
-  host: "test.czl.net",
-  all: "",
-  tag: "tag1",
-};
-
 export function CleanCacheForm() {
   const [secretId, setSecretId] = useState("");
   const [secretKey, setSecretKey] = useState("");
   const [zoneId, setZoneId] = useState("");
-  const [targets, setTargets] = useState("");
+  const [note, setNote] = useState("");
   const [loading, setLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [result, setResult] = useState<EOApiResponse | null>(null);
   const [savedConfigs, setSavedConfigs] = useState<SavedConfig[]>([]);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [configName, setConfigName] = useState("");
+  const [urls, setUrls] = useState("");
+  const [prefixes, setPrefixes] = useState("");
+  const [hosts, setHosts] = useState("");
+  const [tags, setTags] = useState("");
   const { toast } = useToast();
 
   useEffect(() => {
@@ -69,12 +67,22 @@ export function CleanCacheForm() {
       return;
     }
 
+    if (!secretId || !secretKey || !zoneId) {
+      toast({
+        variant: "destructive",
+        title: "错误",
+        description: "请填写完整的配置信息！",
+      });
+      return;
+    }
+
     const newConfig: SavedConfig = {
       id: Date.now().toString(),
       name: configName,
       secretId,
       secretKey,
       zoneId,
+      note,
     };
 
     const updatedConfigs = [...savedConfigs, newConfig];
@@ -93,6 +101,7 @@ export function CleanCacheForm() {
     setSecretId(config.secretId);
     setSecretKey(config.secretKey);
     setZoneId(config.zoneId);
+    setNote(config.note || "");
 
     toast({
       title: "成功",
@@ -111,11 +120,63 @@ export function CleanCacheForm() {
     });
   };
 
-  const fillExample = (type: keyof typeof examples) => {
-    setTargets(examples[type]);
+  const purgeUrls = async () => {
+    if (!urls.trim()) {
+      toast({
+        variant: "destructive",
+        title: "错误",
+        description: "请输入需要刷新的URL",
+      });
+      return;
+    }
+    
+    await callApi("purge_url", urls.split("\n").map(t => t.trim()).filter(t => t));
   };
 
-  const callApi = async (type: string, method = "invalidate") => {
+  const purgePrefixes = async () => {
+    if (!prefixes.trim()) {
+      toast({
+        variant: "destructive",
+        title: "错误",
+        description: "请输入需要刷新的目录",
+      });
+      return;
+    }
+    
+    await callApi("purge_prefix", prefixes.split("\n").map(t => t.trim()).filter(t => t));
+  };
+
+  const purgeHosts = async () => {
+    if (!hosts.trim()) {
+      toast({
+        variant: "destructive",
+        title: "错误",
+        description: "请输入需要刷新的主机",
+      });
+      return;
+    }
+    
+    await callApi("purge_host", hosts.split("\n").map(t => t.trim()).filter(t => t));
+  };
+
+  const purgeTags = async () => {
+    if (!tags.trim()) {
+      toast({
+        variant: "destructive",
+        title: "错误",
+        description: "请输入需要刷新的缓存标签",
+      });
+      return;
+    }
+    
+    await callApi("purge_cache_tag", tags.split("\n").map(t => t.trim()).filter(t => t));
+  };
+
+  const purgeAll = async () => {
+    await callApi("purge_all", []);
+  };
+
+  const callApi = async (type: string, targets: string[], method = "invalidate") => {
     if (!secretId || !secretKey || !zoneId) {
       toast({
         variant: "destructive",
@@ -137,7 +198,7 @@ export function CleanCacheForm() {
           secretKey,
           zoneId,
           type,
-          targets: targets.split(",").map((t) => t.trim()).filter((t) => t),
+          targets,
           method,
         }),
       });
@@ -188,7 +249,7 @@ export function CleanCacheForm() {
       <CardHeader>
         <CardTitle>腾讯云EdgeOne缓存刷新工具</CardTitle>
         <CardDescription>
-          单页面清理腾讯云Edgeone缓存，提供快速便捷的缓存刷新功能，支持URL、目录、Host、全部以及基于缓存标签的刷新操作。数据保存在浏览器本地，不会上传到任何服务器。
+          单页面清理腾讯云EdgeOne缓存，提供快速便捷的缓存刷新功能，支持URL、目录、Host、全部以及基于缓存标签的刷新操作。数据保存在浏览器本地，不会上传到任何服务器。
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -224,6 +285,11 @@ export function CleanCacheForm() {
                       className="flex-1 text-left text-sm font-medium"
                     >
                       {config.name}
+                      {config.note && (
+                        <span className="block text-xs text-muted-foreground">
+                          {config.note}
+                        </span>
+                      )}
                     </button>
                     <Button
                       variant="ghost"
@@ -291,109 +357,150 @@ export function CleanCacheForm() {
               </a>
             </p>
           </div>
-        </div>
 
-        <div className="space-y-4">
           <div className="space-y-2">
-            <Label>目标地址/标签</Label>
+            <Label>备注</Label>
             <Input
-              value={targets}
-              onChange={(e) => setTargets(e.target.value)}
-              placeholder="多个地址用英文逗号分隔"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="可选"
             />
           </div>
-
-          <div className="space-y-2">
-            <Label>快速示例</Label>
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" onClick={() => fillExample("url")}>
-                URL刷新示例
-              </Button>
-              <Button variant="outline" onClick={() => fillExample("prefix")}>
-                目录刷新示例
-              </Button>
-              <Button variant="outline" onClick={() => fillExample("host")}>
-                Host刷新示例
-              </Button>
-              <Button variant="outline" onClick={() => fillExample("all")}>
-                全部刷新示例
-              </Button>
-              <Button variant="outline" onClick={() => fillExample("tag")}>
-                Cache Tag示例
-              </Button>
-            </div>
-          </div>
-
-          <Tabs defaultValue="url" className="w-full">
-            <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="url">URL刷新</TabsTrigger>
-              <TabsTrigger value="prefix">目录刷新</TabsTrigger>
-              <TabsTrigger value="host">Host刷新</TabsTrigger>
-              <TabsTrigger value="all">刷新全部</TabsTrigger>
-              <TabsTrigger value="tag">Cache Tag</TabsTrigger>
-            </TabsList>
-            <TabsContent value="url">
-              <Button
-                className="w-full"
-                disabled={loading}
-                onClick={() => callApi("purge_url")}
-              >
-                URL刷新
-              </Button>
-              <p className="mt-2 text-sm text-muted-foreground">
-                用于刷新具体的URL，需要http/https
-              </p>
-            </TabsContent>
-            <TabsContent value="prefix">
-              <Button
-                className="w-full"
-                disabled={loading}
-                onClick={() => callApi("purge_prefix")}
-              >
-                目录刷新
-              </Button>
-              <p className="mt-2 text-sm text-muted-foreground">
-                用于刷新指定目录下的所有文件，需要http/https
-              </p>
-            </TabsContent>
-            <TabsContent value="host">
-              <Button
-                className="w-full"
-                disabled={loading}
-                onClick={() => callApi("purge_host")}
-              >
-                Host刷新
-              </Button>
-              <p className="mt-2 text-sm text-muted-foreground">
-                用于刷新整个域名的缓存，只填写域名即可
-              </p>
-            </TabsContent>
-            <TabsContent value="all">
-              <Button
-                className="w-full"
-                disabled={loading}
-                onClick={() => callApi("purge_all")}
-              >
-                刷新全部
-              </Button>
-              <p className="mt-2 text-sm text-muted-foreground">
-                清除站点下所有缓存
-              </p>
-            </TabsContent>
-            <TabsContent value="tag">
-              <Button
-                className="w-full"
-                disabled={loading}
-                onClick={() => callApi("purge_cache_tag")}
-              >
-                Cache Tag刷新
-              </Button>
-              <p className="mt-2 text-sm text-muted-foreground">
-                基于缓存标签的刷新（仅企业版）
-              </p>
-            </TabsContent>
-          </Tabs>
         </div>
+
+        <Tabs defaultValue="all" className="w-full">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="all">刷新全部</TabsTrigger>
+            <TabsTrigger value="url">URL刷新</TabsTrigger>
+            <TabsTrigger value="prefix">目录刷新</TabsTrigger>
+            <TabsTrigger value="host">Host刷新</TabsTrigger>
+            <TabsTrigger value="tag">Cache Tag(企业版)</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="all">
+            <Card>
+              <CardHeader>
+                <CardTitle>刷新全部缓存</CardTitle>
+                <CardDescription>
+                  将清理该域名下的所有缓存文件
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button
+                  className="w-full"
+                  disabled={loading}
+                  onClick={purgeAll}
+                >
+                  刷新所有缓存
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="url">
+            <Card>
+              <CardHeader>
+                <CardTitle>按URL刷新</CardTitle>
+                <CardDescription>
+                  输入需要刷新的URL地址，每行一个
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={urls}
+                  onChange={(e) => setUrls(e.target.value)}
+                  placeholder="http://example.com/file1.jpg"
+                  className="min-h-[150px]"
+                />
+                <Button
+                  className="w-full"
+                  disabled={loading}
+                  onClick={purgeUrls}
+                >
+                  刷新指定URL
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="prefix">
+            <Card>
+              <CardHeader>
+                <CardTitle>按目录刷新</CardTitle>
+                <CardDescription>
+                  输入需要刷新的目录，每行一个
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={prefixes}
+                  onChange={(e) => setPrefixes(e.target.value)}
+                  placeholder="http://example.com/images/"
+                  className="min-h-[150px]"
+                />
+                <Button
+                  className="w-full"
+                  disabled={loading}
+                  onClick={purgePrefixes}
+                >
+                  刷新指定目录
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="host">
+            <Card>
+              <CardHeader>
+                <CardTitle>按主机刷新</CardTitle>
+                <CardDescription>
+                  输入需要刷新的主机名，每行一个
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={hosts}
+                  onChange={(e) => setHosts(e.target.value)}
+                  placeholder="www.example.com"
+                  className="min-h-[150px]"
+                />
+                <Button
+                  className="w-full"
+                  disabled={loading}
+                  onClick={purgeHosts}
+                >
+                  刷新指定主机
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="tag">
+            <Card>
+              <CardHeader>
+                <CardTitle>按Cache Tag刷新 (仅企业版)</CardTitle>
+                <CardDescription>
+                  输入需要刷新的缓存标签，每行一个
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={tags}
+                  onChange={(e) => setTags(e.target.value)}
+                  placeholder="tag1&#10;tag2&#10;tag3"
+                  className="min-h-[150px]"
+                />
+                <Button
+                  className="w-full"
+                  disabled={loading}
+                  onClick={purgeTags}
+                >
+                  刷新指定标签
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
 
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogContent>
