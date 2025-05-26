@@ -24,8 +24,13 @@ export function DouyinDownloadForm() {
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set());
   const { toast } = useToast();
 
+  // 使其可识别 https://v.douyin.com/xxx 或 https://v.douyin.com/xxx/
+  // 并自动过滤所有表情等噪音部分
   const extractLink = (text: string) => {
-    const match = text.match(/https:\/\/v\.douyin\.com\/[a-zA-Z0-9]+\//);
+    // 先移除所有空格和换行
+    const raw = text.replace(/\s/g, "");
+    // 匹配 https://v.douyin.com/XXXX 或 https://v.douyin.com/XXXX/
+    const match = raw.match(/https:\/\/v\.douyin\.com\/[a-zA-Z0-9]+\/?/);
     return match ? match[0] : null;
   };
 
@@ -194,4 +199,4 @@ export function DouyinDownloadForm() {
       </CardContent>
     </Card>
   );
-} 
+}
