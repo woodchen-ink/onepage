@@ -29,8 +29,8 @@ export function DouyinDownloadForm() {
   const extractLink = (text: string) => {
     // 先移除所有空格和换行
     const raw = text.replace(/\s/g, "");
-    // 匹配 https://v.douyin.com/XXXX 或 https://v.douyin.com/XXXX/
-    const match = raw.match(/https:\/\/v\.douyin\.com\/[a-zA-Z0-9]+\/?/);
+    // 匹配 https://v.douyin.com/任意有效短链（数字、字母、短横线、下划线），带无结尾斜杠都支持
+    const match = raw.match(/https:\/\/v\.douyin\.com\/[a-zA-Z0-9\-_]+\/?/);
     return match ? match[0] : null;
   };
 
@@ -74,12 +74,12 @@ export function DouyinDownloadForm() {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://mirror.20200511.xyz/https://api.yujn.cn/api/dy_jx.php?msg=" + encodeURIComponent(link)
+        "https://mirror.20200511.xyz/https://api.yujn.cn/api/dy_jx.php?msg=" + link
       );
       const data = await response.json();
 
       if (data.type === "视频") {
-        window.open(data.video, '_blank');
+        window.open(data.play_video, '_blank');
         clearInput();
       } else {
         setResult(data);
