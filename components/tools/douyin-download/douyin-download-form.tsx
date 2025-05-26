@@ -15,6 +15,8 @@ interface DouyinResponse {
   name: string;
   images?: string[];
   video?: string;
+  play_video?: string;
+  cover?: string;
 }
 
 export function DouyinDownloadForm() {
@@ -78,12 +80,7 @@ export function DouyinDownloadForm() {
       );
       const data = await response.json();
 
-      if (data.type === "视频") {
-        window.open(data.play_video, '_blank');
-        clearInput();
-      } else {
-        setResult(data);
-      }
+      setResult(data); // 统一设置结果，由渲染层判断
     } catch {
       toast({
         variant: "destructive",
@@ -193,6 +190,81 @@ export function DouyinDownloadForm() {
                   </Button>
                 </div>
               </>
+            )}
+
+            {result.type === "视频" && result.cover && (
+              <div className="flex flex-col items-center gap-4">
+                <div className="relative w-64 h-64">
+                  <Image
+                    src={result.cover}
+                    alt="封面"
+                    fill
+                    className="object-cover rounded-lg"
+                    unoptimized
+                  />
+                </div>
+                <div className="flex gap-2 w-full">
+                  <Button
+                    className="flex-1"
+                    onClick={() => {
+                      if (result.cover) {
+                        // 提取后缀
+                        const ext =
+                          result.cover.includes(".webp")
+                            ? "webp"
+                            : result.cover.includes(".jpg")
+                            ? "jpg"
+                            : "png";
+                        downloadFile(
+                          result.cover,
+                          `${result.title || "douyin"}-cover.${ext}`
+                        );
+                      }
+                    }}
+                  >
+                    下载封面
+                  </Button>
+                  <Button
+                    className="flex-1"
+                    onClick={() => {
+                      if (result.play_video)
+                        // 尝试 a download 下载，兼容性弱，但部分浏览器支持
+                        (() => {
+                          const a = document.createElement("a");
+                          a.href = result.play_video || "";
+                          a.target = "_blank";
+                          a.rel = "noopener noreferrer";
+                          a.click();
+                        })();
+                    }}
+                  >
+                    跳转播放
+                  </Button>
+                </div>
+                {result.play_video && (
+                  <div className="w-full flex flex-col items-center gap-2">
+                    <Input
+                      readOnly
+                      value={result.play_video}
+                      className="text-xs"
+                      onClick={e => (e.target as HTMLInputElement).select()}
+                    />
+                    <Button
+                      size="sm"
+                      className="w-full"
+                      onClick={() => {
+                        navigator.clipboard.writeText(result.play_video!);
+                        toast({
+                          title: "已复制播放链接，请手动粘贴到新标签页访问（避免403）",
+                        });
+                      }}
+                    >
+                      复制播放链接
+                    </Button>
+                    <div className="text-xs text-muted-foreground">若跳转403，请手动复制上方链接并在浏览器新标签页粘贴访问</div>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         )}
