@@ -150,21 +150,6 @@ export const tools: ToolSection[] = [
     ],
   },
   {
-    name: "娱乐",
-    items: [
-      { 
-        name: "随机图片", 
-        href: "/fun/random_image", 
-        icon: Image
-      },
-      { 
-        name: "随机视频", 
-        href: "/fun/random_video", 
-        icon: Video
-      },
-    ],
-  },
-  {
     name: "VPS",
     items: [
       { 
