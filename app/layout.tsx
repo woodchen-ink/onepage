@@ -22,7 +22,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased font-sans">{children}</body>
     </html>
   );
 }
