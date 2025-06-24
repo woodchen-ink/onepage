@@ -72,7 +72,7 @@ export default function Home() {
             </CardContent>
             <CardFooter>
               <p className="text-sm text-muted-foreground text-center w-full">
-                由 <Link href="https://q58.club" className="text-blue-500 hover:text-blue-600">Q58论坛</Link> 提供技术支持
+                由 <Link href="https://www.czl.net" className="text-blue-500 hover:text-blue-600">CZL</Link> 提供技术支持
               </p>
             </CardFooter>
           </Card>

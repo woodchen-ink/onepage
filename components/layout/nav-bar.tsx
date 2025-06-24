@@ -57,7 +57,7 @@ export function NavBar() {
           <div className="flex items-center">
             <div className="hidden sm:block">
               <Link
-                href="https://www.q58.club/t/topic/364"
+                href="https://www.sunai.net/t/topic/364"
                 target="_blank"
               >
                 <Button variant="default" size="sm" className="font-medium">
@@ -109,7 +109,7 @@ export function NavBar() {
             ))}
             <div className="border-t border-border mt-2 pt-2">
               <Link
-                href="https://www.q58.club/t/topic/364"
+                href="https://www.sunai.net/t/topic/364"
                 target="_blank"
                 className="block px-4 py-2"
               >

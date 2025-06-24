@@ -75,4 +75,4 @@ npm run dev
 
 ## 🔗 相关链接
 
-- [Q58论坛](https://q58.club) - 技术支持
+- [CZL](https://www.czl.net) - 技术支持
