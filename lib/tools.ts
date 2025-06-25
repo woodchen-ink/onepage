@@ -147,6 +147,11 @@ export const tools: ToolSection[] = [
         href: "/tools/submiturl_bing", 
         icon: AppWindow
       },
+      { 
+        name: "提交URL到百度", 
+        href: "/tools/baidu_url_submit", 
+        icon: AppWindow
+      },
     ],
   },
   {
