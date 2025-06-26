@@ -15,57 +15,102 @@ html, body {
 
 @layer base {
   :root {
-    --background: 24 7% 97%; /* #F8F7F6 主要背景色 */
-    --foreground: 0 0% 0%; /* #000000 主要文本 */
-    --card: 24 7% 97%; /* #F8F7F6 卡片背景 */
-    --card-foreground: 0 0% 0%; /* #000000 卡片文本 */
-    --popover: 24 7% 97%; /* #F8F7F6 弹出框背景 */
-    --popover-foreground: 0 0% 0%; /* #000000 弹出框文本 */
-    --primary: 22 35% 56%; /* #C08259 强调色 */
-    --primary-foreground: 24 7% 97%; /* #F8F7F6 主按钮文本 */
-    --secondary: 20 22% 94%; /* #F4E8E0 已选择项目背景 */
-    --secondary-foreground: 0 0% 0%; /* #000000 次要按钮文本 */
-    --muted: 0 0% 94%; /* #f0f0f0 悬停背景 */
-    --muted-foreground: 0 0% 45%; /* 静音文本 */
-    --accent: 22 35% 56%; /* #C08259 强调色 */
-    --accent-foreground: 24 7% 97%; /* #F8F7F6 强调文本 */
-    --destructive: 8 41% 51%; /* #b85e48 危险色 */
-    --destructive-foreground: 24 7% 97%; /* #F8F7F6 危险操作文本 */
-    --border: 0 0% 90%; /* 边框颜色 */
-    --input: 0 0% 90%; /* 输入框边框 */
-    --ring: 22 35% 56%; /* #C08259 焦点环 */
-    --chart-1: 22 35% 56%; /* #C08259 */
-    --chart-2: 120 28% 45%; /* #518751 成功色 */
-    --chart-3: 346 85% 70%; /* #fa6c8d 爱心色 */
-    --chart-4: 60 65% 70%; /* #ecec70 突出显示 */
-    --chart-5: 8 41% 51%; /* #b85e48 可选强调色 */
+    --background: 30 12.5000% 96.8627%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 23.8835 44.9782% 55.0980%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96.0784%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 89.8039%;
+    --muted-foreground: 0 0% 45.0980%;
+    --accent: 23.8835 44.9782% 55.0980%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 11.7857 44.0945% 50.1961%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 89.8039%;
+    --input: 0 0% 89.8039%;
+    --ring: 23.8835 44.9782% 55.0980%;
+    --chart-1: 23.8835 44.9782% 55.0980%;
+    --chart-2: 11.7857 44.0945% 50.1961%;
+    --chart-3: 120 25.0000% 42.3529%;
+    --chart-4: 346.0563 93.4211% 70.1961%;
+    --chart-5: 60 76.5432% 68.2353%;
+    --sidebar: 0 0% 96.0784%;
+    --sidebar-foreground: 0 0% 0%;
+    --sidebar-primary: 23.8835 44.9782% 55.0980%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 23.8835 44.9782% 55.0980%;
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: 0 0% 89.8039%;
+    --sidebar-ring: 23.8835 44.9782% 55.0980%;
+    --font-sans: #000000;
+    --font-serif: #000000;
+    --font-mono: #000000;
     --radius: 0.5rem;
+    --shadow-2xs: 0 0 0 0 hsl(0 0% 0% / 0.00);
+    --shadow-xs: 0 0 0 0 hsl(0 0% 0% / 0.00);
+    --shadow-sm: 0 0 0 0 hsl(0 0% 0% / 0.00), 0 1px 2px -1px hsl(0 0% 0% / 0.00);
+    --shadow: 0 0 0 0 hsl(0 0% 0% / 0.00), 0 1px 2px -1px hsl(0 0% 0% / 0.00);
+    --shadow-md: 0 0 0 0 hsl(0 0% 0% / 0.00), 0 2px 4px -1px hsl(0 0% 0% / 0.00);
+    --shadow-lg: 0 0 0 0 hsl(0 0% 0% / 0.00), 0 4px 6px -1px hsl(0 0% 0% / 0.00);
+    --shadow-xl: 0 0 0 0 hsl(0 0% 0% / 0.00), 0 8px 10px -1px hsl(0 0% 0% / 0.00);
+    --shadow-2xl: 0 0 0 0 hsl(0 0% 0% / 0.00);
+    --tracking-normal: -0.025em;
   }
+  
   .dark {
-    --background: 0 0% 0%; /* #000000 页眉背景 */
-    --foreground: 24 7% 97%; /* #F8F7F6 页眉文本 */
-    --card: 0 0% 8%; /* 深色卡片背景 */
-    --card-foreground: 24 7% 97%; /* #F8F7F6 卡片文本 */
-    --popover: 0 0% 8%; /* 深色弹出框背景 */
-    --popover-foreground: 24 7% 97%; /* #F8F7F6 弹出框文本 */
-    --primary: 22 35% 56%; /* #C08259 强调色 */
-    --primary-foreground: 24 7% 97%; /* #F8F7F6 主按钮文本 */
-    --secondary: 20 22% 20%; /* 深色已选择项目背景 */
-    --secondary-foreground: 24 7% 97%; /* #F8F7F6 次要按钮文本 */
-    --muted: 0 0% 15%; /* 深色悬停背景 */
-    --muted-foreground: 0 0% 65%; /* 静音文本 */
-    --accent: 22 35% 56%; /* #C08259 强调色 */
-    --accent-foreground: 24 7% 97%; /* #F8F7F6 强调文本 */
-    --destructive: 8 41% 51%; /* #b85e48 危险色 */
-    --destructive-foreground: 24 7% 97%; /* #F8F7F6 危险操作文本 */
-    --border: 0 0% 20%; /* 深色边框 */
-    --input: 0 0% 20%; /* 深色输入框边框 */
-    --ring: 22 35% 56%; /* #C08259 焦点环 */
-    --chart-1: 22 35% 56%; /* #C08259 */
-    --chart-2: 120 28% 45%; /* #518751 成功色 */
-    --chart-3: 346 85% 70%; /* #fa6c8d 爱心色 */
-    --chart-4: 60 65% 70%; /* #ecec70 突出显示 */
-    --chart-5: 8 41% 51%; /* #b85e48 可选强调色 */
+    --background: 0 0% 10.1961%;
+    --foreground: 30 12.5000% 96.8627%;
+    --card: 0 0% 14.9020%;
+    --card-foreground: 30 12.5000% 96.8627%;
+    --popover: 0 0% 14.9020%;
+    --popover-foreground: 30 12.5000% 96.8627%;
+    --primary: 23.8835 44.9782% 55.0980%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 25.0980%;
+    --secondary-foreground: 30 12.5000% 96.8627%;
+    --muted: 0 0% 25.0980%;
+    --muted-foreground: 0 0% 63.9216%;
+    --accent: 23.8835 44.9782% 55.0980%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 11.7857 44.0945% 50.1961%;
+    --destructive-foreground: 0 0% 0%;
+    --border: 0 0% 25.0980%;
+    --input: 0 0% 14.9020%;
+    --ring: 23.8835 44.9782% 55.0980%;
+    --chart-1: 23.8835 44.9782% 55.0980%;
+    --chart-2: 11.7857 44.0945% 50.1961%;
+    --chart-3: 120 25.0000% 42.3529%;
+    --chart-4: 346.0563 93.4211% 70.1961%;
+    --chart-5: 60 76.5432% 68.2353%;
+    --sidebar: 0 0% 12.1569%;
+    --sidebar-foreground: 30 12.5000% 96.8627%;
+    --sidebar-primary: 23.8835 44.9782% 55.0980%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 23.8835 44.9782% 55.0980%;
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 23.8835 44.9782% 55.0980%;
+    --font-sans: #F8F7F6;
+    --font-serif: #F8F7F6;
+    --font-mono: #F8F7F6;
+    --radius: 0.5rem;
+    --shadow-2xs: 0 0 0 0 hsl(0 0% 0% / 0.00);
+    --shadow-xs: 0 0 0 0 hsl(0 0% 0% / 0.00);
+    --shadow-sm: 0 0 0 0 hsl(0 0% 0% / 0.00), 0 1px 2px -1px hsl(0 0% 0% / 0.00);
+    --shadow: 0 0 0 0 hsl(0 0% 0% / 0.00), 0 1px 2px -1px hsl(0 0% 0% / 0.00);
+    --shadow-md: 0 0 0 0 hsl(0 0% 0% / 0.00), 0 2px 4px -1px hsl(0 0% 0% / 0.00);
+    --shadow-lg: 0 0 0 0 hsl(0 0% 0% / 0.00), 0 4px 6px -1px hsl(0 0% 0% / 0.00);
+    --shadow-xl: 0 0 0 0 hsl(0 0% 0% / 0.00), 0 8px 10px -1px hsl(0 0% 0% / 0.00);
+    --shadow-2xl: 0 0 0 0 hsl(0 0% 0% / 0.00);
+  }
+  
+  body {
+    letter-spacing: var(--tracking-normal);
   }
 }
 
