@@ -10,6 +10,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Save, Trash, CheckCircle2, XCircle, Pencil } from "lucide-react";
+import Link from "next/link";
 
 interface SavedConfig {
   id: string;
@@ -281,7 +282,7 @@ export function CleanCacheForm() {
       <CardHeader>
         <CardTitle>腾讯云EdgeOne缓存刷新工具</CardTitle>
         <CardDescription>
-          数据保存在浏览器本地，不会上传到任何服务器。
+          数据保存在浏览器本地，不会上传到任何服务器。通用国内站和国际站。
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -362,14 +363,21 @@ export function CleanCacheForm() {
               placeholder="请输入 SecretId"
             />
             <p className="text-sm text-muted-foreground">
-              从腾讯云API密钥管理页面获取:{" "}
-              <a
+              <Link
                 href="https://console.cloud.tencent.com/cam/capi"
                 target="_blank"
                 className="underline"
               >
-                https://console.cloud.tencent.com/cam/capi
-              </a>
+                国内站: https://console.cloud.tencent.com/cam/capi
+              </Link>
+              <br />
+              <Link
+                href="https://console.intl.cloud.tencent.com/cam/capi"
+                target="_blank"
+                className="underline"
+              >
+                国际站: https://console.intl.cloud.tencent.com/cam/capi
+              </Link>
             </p>
           </div>
 
@@ -391,14 +399,21 @@ export function CleanCacheForm() {
               placeholder="请输入 ZoneId"
             />
             <p className="text-sm text-muted-foreground">
-              从EdgeOne控制台站点信息中获取:{" "}
-              <a
+              <Link
                 href="https://console.cloud.tencent.com/edgeone/zones"
                 target="_blank"
                 className="underline"
               >
-                https://console.cloud.tencent.com/edgeone/zones
-              </a>
+                国内站: https://console.cloud.tencent.com/edgeone/zones
+              </Link>
+              <br />
+              <Link
+                href="https://console.intl.cloud.tencent.com/edgeone/zones"
+                target="_blank"
+                className="underline"
+              >
+                国际站: https://console.intl.cloud.tencent.com/edgeone/zones
+              </Link>
             </p>
           </div>
         </div>
