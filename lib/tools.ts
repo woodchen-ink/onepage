@@ -1,4 +1,4 @@
-import { Video, Image, Calculator, Clock, Download, Link, FileImage, Trash2, AppWindow, Globe, Server } from "lucide-react";
+import { Video, Image, Calculator, Clock, Download, Link, FileImage, Trash2, AppWindow, Globe, Server, Key } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 
 export interface ToolItem {
@@ -70,6 +70,11 @@ export const tools: ToolSection[] = [
         name: "GitHub加速", 
         href: "/tools/github_proxy", 
         icon: Link
+      },
+      { 
+        name: "Discourse API Key", 
+        href: "/tools/discourse-api", 
+        icon: Key
       },
       
       { 
@@ -184,4 +189,4 @@ export const tools: ToolSection[] = [
       },
     ],
   },
-]; 
+];
