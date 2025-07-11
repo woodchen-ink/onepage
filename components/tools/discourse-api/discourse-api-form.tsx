@@ -82,7 +82,7 @@ export default function DiscourseApiForm() {
 
     const hostname = window.location.hostname;
     const params = new URLSearchParams({
-      application_name: "Discourse API Key Generator",
+      application_name: "OnePage Discourse API Key",
       client_id: hostname,
       scopes: "read,write,message_bus,push,notifications,session_info",
       public_key: publicKeyBase64,
