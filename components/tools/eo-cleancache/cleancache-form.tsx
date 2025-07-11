@@ -221,7 +221,7 @@ export function CleanCacheForm() {
 
     setLoading(true);
     try {
-      const response = await fetch("https://eo-cleancache.20200511.xyz/", {
+      const response = await fetch("/api/eo-cleancache", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
