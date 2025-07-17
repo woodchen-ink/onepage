@@ -6,23 +6,35 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Download, Loader2, Trash2, Send } from "lucide-react";
+import { Download, Loader2, Trash2, Play, Clipboard } from "lucide-react";
 import Image from "next/image";
 
-interface DouyinResponse {
-  type: "图集" | "视频";
-  title: string;
-  name: string;
-  images?: string[];
-  video?: string;
-  play_video?: string;
-  cover?: string;
+interface NewDouyinResponse {
+  code: number;
+  message: string;
+  data: {
+    type: string;
+    video_title: string;
+    author: {
+      uid: string;
+      name: string;
+      avatar: string;
+    };
+    video_url: string;
+    music_url: string;
+    video_info: string;
+    images: Array<{
+      url: string;
+      live_photo_url: string;
+    }>;
+    content_type: "video" | "images";
+  };
 }
 
 export function DouyinDownloadForm() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<DouyinResponse | null>(null);
+  const [result, setResult] = useState<NewDouyinResponse | null>(null);
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set());
   const { toast } = useToast();
 
@@ -40,6 +52,22 @@ export function DouyinDownloadForm() {
     setInput("");
     setResult(null);
     setSelectedImages(new Set());
+  };
+
+  const handlePaste = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      setInput(text);
+      toast({
+        title: "已粘贴剪贴板内容",
+      });
+    } catch {
+      toast({
+        variant: "destructive",
+        title: "粘贴失败",
+        description: "无法访问剪贴板，请手动粘贴",
+      });
+    }
   };
 
   const downloadFile = (url: string, filename: string) => {
@@ -75,12 +103,21 @@ export function DouyinDownloadForm() {
 
     setLoading(true);
     try {
+      const encodedUrl = encodeURIComponent(link);
       const response = await fetch(
-        "https://mirror.20200511.xyz/https://api.yujn.cn/api/dy_jx.php?msg=" + link
+        `/api/2${encodedUrl}`
       );
-      const data = await response.json();
+      const data: NewDouyinResponse = await response.json();
 
-      setResult(data); // 统一设置结果，由渲染层判断
+      if (data.code === 200) {
+        setResult(data);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "错误",
+          description: data.message || "解析失败，请重试",
+        });
+      }
     } catch {
       toast({
         variant: "destructive",
@@ -103,25 +140,27 @@ export function DouyinDownloadForm() {
   };
 
   const downloadSelected = () => {
-    if (!result) return;
+    if (!result?.data) return;
     Array.from(selectedImages).forEach((url, index) => {
-      downloadFile(url, `${result.title}-${index + 1}.webp`);
+      downloadFile(url, `${result.data.video_title}-${index + 1}.webp`);
     });
   };
 
   const downloadAll = () => {
-    if (!result?.images) return;
-    result.images.forEach((url, index) => {
-      downloadFile(url, `${result.title}-${index + 1}.webp`);
+    if (!result?.data?.images) return;
+    result.data.images.forEach((img, index) => {
+      downloadFile(img.url, `${result.data.video_title}-${index + 1}.webp`);
     });
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>抖音图集下载</CardTitle>
+        <CardTitle>抖音解析下载</CardTitle>
         <CardDescription>
           通过分享链接下载抖音图集或打开视频文件
+          <br />
+          <span className="text-xs text-muted-foreground">接口友情提供: <a href="https://q.juxw.com/" target="_blank" rel="noopener noreferrer">https://q.juxw.com/</a></span>
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -132,11 +171,14 @@ export function DouyinDownloadForm() {
             placeholder="请粘贴抖音分享文本"
             className="flex-1"
           />
+          <Button variant="outline" size="icon" onClick={handlePaste}>
+            <Clipboard className="h-4 w-4" />
+          </Button>
           <Button variant="outline" size="icon" onClick={handleSubmit} disabled={loading}>
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              <Send className="h-4 w-4" />
+              <Play className="h-4 w-4" />
             )}
           </Button>
           <Button variant="outline" onClick={clearInput}>
@@ -144,24 +186,24 @@ export function DouyinDownloadForm() {
           </Button>
         </div>
 
-        {result && (
+        {result?.data && (
           <div className="space-y-4">
             <div>
-              <h3 className="text-lg font-medium">标题: {result.title}</h3>
-              <p className="text-sm text-muted-foreground">作者：{result.name}</p>
+              <h3 className="text-lg font-medium">标题: {result.data.video_title}</h3>
+              <p className="text-sm text-muted-foreground">作者：{result.data.author.name}</p>
             </div>
 
-            {result.type === "图集" && result.images && (
+            {result.data.content_type === "images" && result.data.images && result.data.images.length > 0 && (
               <>
                 <div className="grid grid-cols-4 gap-4">
-                  {result.images.map((img, index) => (
+                  {result.data.images.map((img, index) => (
                     <div
-                      key={img}
+                      key={img.url}
                       className="group relative cursor-pointer aspect-square"
-                      onClick={() => toggleImage(img)}
+                      onClick={() => toggleImage(img.url)}
                     >
                       <Image
-                        src={img}
+                        src={img.url}
                         alt={`图片${index + 1}`}
                         fill
                         className="object-cover rounded-lg"
@@ -169,7 +211,7 @@ export function DouyinDownloadForm() {
                       />
                       <div className="absolute top-2 left-2">
                         <Checkbox
-                          checked={selectedImages.has(img)}
+                          checked={selectedImages.has(img.url)}
                           className="data-[state=checked]:bg-pink-500 data-[state=checked]:border-pink-500"
                         />
                       </div>
@@ -192,11 +234,11 @@ export function DouyinDownloadForm() {
               </>
             )}
 
-            {result.type === "视频" && result.cover && (
+            {result.data.content_type === "video" && result.data.video_info && (
               <div className="flex flex-col items-center gap-4">
                 <div className="relative w-64 h-64">
                   <Image
-                    src={result.cover}
+                    src={result.data.video_info}
                     alt="封面"
                     fill
                     className="object-cover rounded-lg"
@@ -207,17 +249,17 @@ export function DouyinDownloadForm() {
                   <Button
                     className="flex-1"
                     onClick={() => {
-                      if (result.cover) {
+                      if (result.data.video_info) {
                         // 提取后缀
                         const ext =
-                          result.cover.includes(".webp")
+                          result.data.video_info.includes(".webp")
                             ? "webp"
-                            : result.cover.includes(".jpg")
+                            : result.data.video_info.includes(".jpg")
                             ? "jpg"
                             : "png";
                         downloadFile(
-                          result.cover,
-                          `${result.title || "douyin"}-cover.${ext}`
+                          result.data.video_info,
+                          `${result.data.video_title || "douyin"}-cover.${ext}`
                         );
                       }
                     }}
@@ -227,11 +269,11 @@ export function DouyinDownloadForm() {
                   <Button
                     className="flex-1"
                     onClick={() => {
-                      if (result.play_video)
+                      if (result.data.video_url)
                         // 尝试 a download 下载，兼容性弱，但部分浏览器支持
                         (() => {
                           const a = document.createElement("a");
-                          a.href = result.play_video || "";
+                          a.href = result.data.video_url || "";
                           a.target = "_blank";
                           a.rel = "noopener noreferrer";
                           a.click();
@@ -241,11 +283,11 @@ export function DouyinDownloadForm() {
                     跳转播放
                   </Button>
                 </div>
-                {result.play_video && (
+                {result.data.video_url && (
                   <div className="w-full flex flex-col items-center gap-2">
                     <Input
                       readOnly
-                      value={result.play_video}
+                      value={result.data.video_url}
                       className="text-xs"
                       onClick={e => (e.target as HTMLInputElement).select()}
                     />
@@ -253,7 +295,7 @@ export function DouyinDownloadForm() {
                       size="sm"
                       className="w-full"
                       onClick={() => {
-                        navigator.clipboard.writeText(result.play_video!);
+                        navigator.clipboard.writeText(result.data.video_url!);
                         toast({
                           title: "已复制播放链接，请手动粘贴到新标签页访问（避免403）",
                         });

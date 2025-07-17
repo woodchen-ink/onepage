@@ -4,6 +4,7 @@
 // 配置映射表 - 将数字 ID 映射到对应的反代接口
 const PROXY_CONFIG = {
   '1': 'https://cloudflare-ai-test.20200511.xyz/',
+  '2': 'https://q.juxw.com/api/jx.php?url=',
 };
 
 // 通用反代处理函数
