@@ -105,7 +105,7 @@ export function DouyinDownloadForm() {
     try {
       const encodedUrl = encodeURIComponent(link);
       const response = await fetch(
-        `/api/2${encodedUrl}`
+        `/api/2?url=${encodedUrl}`
       );
       const data: NewDouyinResponse = await response.json();
 
