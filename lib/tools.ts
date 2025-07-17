@@ -62,7 +62,7 @@ export const tools: ToolSection[] = [
         icon: Clock
       },
       { 
-        name: "抖音图集下载", 
+        name: "抖音解析下载", 
         href: "/tools/douyin_download", 
         icon: Download
       },
