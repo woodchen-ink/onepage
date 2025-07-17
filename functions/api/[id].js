@@ -33,18 +33,22 @@ async function handleGeneralProxy(request, actualUrl) {
   // 发送请求
   const response = await fetch(modifiedRequest);
 
-  // 读取响应内容
-  const responseText = await response.text();
-
   // 构建新的响应头
-  const responseHeaders = new Headers();
+  const responseHeaders = new Headers(response.headers);
   responseHeaders.set('Access-Control-Allow-Origin', '*');
   responseHeaders.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   responseHeaders.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  responseHeaders.set('Content-Type', response.headers.get('Content-Type') || 'application/json');
+
+  // 只有当内容类型是文本/JSON时才移除编码头，避免影响二进制内容
+  const contentType = response.headers.get('Content-Type') || '';
+  if (contentType.includes('application/json') || contentType.includes('text/')) {
+    responseHeaders.delete('Content-Encoding');
+    responseHeaders.delete('Content-Length');
+    responseHeaders.delete('Transfer-Encoding');
+  }
 
   // 创建新的响应
-  return new Response(responseText, {
+  return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
     headers: responseHeaders,
