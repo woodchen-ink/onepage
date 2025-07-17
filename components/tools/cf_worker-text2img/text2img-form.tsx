@@ -46,7 +46,7 @@ export function Text2ImgForm() {
     setLoading(true);
 
     try {
-      const response = await fetch("https://cloudflare-ai-test.20200511.xyz/", {
+      const response = await fetch("/api/1", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
