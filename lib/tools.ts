@@ -158,27 +158,27 @@ export const tools: ToolSection[] = [
     items: [
       { 
         name: "热门VPS促销", 
-        href: "/tools/vps_monit", 
+        href: "https://vps-monitor.czl.net/", 
         icon: Server
       },
       { 
         name: "RackNerd促销", 
-        href: "/tools/vps_monit_racknerd", 
+        href: "https://vps-monitor.czl.net/pages/racknerd", 
         icon: Server
       },
       { 
         name: "DMIT促销", 
-        href: "/tools/vps_monit_dmit", 
+        href: "https://vps-monitor.czl.net/pages/dmit", 
         icon: Server
       },
       { 
         name: "搬瓦工促销", 
-        href: "/tools/vps_monit_bandwagonhost", 
+        href: "https://vps-monitor.czl.net/pages/bandwagonhost", 
         icon: Server
       },
       { 
         name: "CloudCone促销", 
-        href: "/tools/vps_monit_cloudcone", 
+        href: "https://vps-monitor.czl.net/pages/cloudcone", 
         icon: Server
       },
     ],
