@@ -219,7 +219,7 @@ export function CleanCacheForm() {
     setLoading(true);
     try {
       // 使用代理URL
-      const proxyUrl = 'https://mirror.20200511.xyz/';
+      const proxyUrl = 'https://p0.czl.net/';
       const apiUrl = 'https://api.cloudflare.com/client/v4/zones/';
       const response = await fetch(`${proxyUrl}${apiUrl}${zoneId}/purge_cache`, {
         method: "POST",

@@ -160,7 +160,7 @@ export function SubmitUrlBingForm() {
       }
 
       // 发送请求到Bing API
-      const response = await fetch(`https://mirror.20200511.xyz/https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey=${encodeURIComponent(apikey)}`, {
+      const response = await fetch(`https://p0.czl.net/https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey=${encodeURIComponent(apikey)}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

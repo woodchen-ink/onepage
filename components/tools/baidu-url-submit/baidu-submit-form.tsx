@@ -179,7 +179,7 @@ export function BaiduSubmitForm() {
       // 按站点分组提交
       for (const [host, urls] of Object.entries(groupedUrls)) {
         try {
-          const response = await fetch(`https://mirror.20200511.xyz/http://data.zz.baidu.com/urls?site=${host}&token=${encodeURIComponent(token)}`, {
+          const response = await fetch(`https://p0.czl.net/http://data.zz.baidu.com/urls?site=${host}&token=${encodeURIComponent(token)}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'text/plain',

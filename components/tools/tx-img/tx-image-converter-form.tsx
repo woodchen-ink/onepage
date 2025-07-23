@@ -54,7 +54,7 @@ export function TxImageConverterForm() {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://mirror.20200511.xyz/https://api.yujn.cn/api/upload_tx.php?url=${encodeURIComponent(input.trim())}`
+        `https://p0.czl.net/https://api.yujn.cn/api/upload_tx.php?url=${encodeURIComponent(input.trim())}`
       );
       const data: ConversionResponse = await response.json();
 
