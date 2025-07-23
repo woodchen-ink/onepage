@@ -34,7 +34,9 @@ export default function IPQueryPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <IPQueryForm />
+          <React.Suspense fallback={<div>加载中...</div>}>
+            <IPQueryForm />
+          </React.Suspense>
         </CardContent>
       </Card>
 
