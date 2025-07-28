@@ -90,6 +90,24 @@ export function DouyinDownloadForm() {
       });
   };
 
+  const downloadVideo = () => {
+    if (!result?.data?.video_url) return;
+    
+    const author = result.data.author.name;
+    const title = result.data.video_title;
+    const filename = `[${author}]-${title}.mp4`;
+    
+    // 使用边缘函数代理下载
+    const proxyUrl = `/api/douyin-download?video_url=${encodeURIComponent(result.data.video_url)}&filename=${encodeURIComponent(filename)}`;
+    
+    const a = document.createElement('a');
+    a.href = proxyUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   const handleSubmit = async () => {
     const link = extractLink(input);
     if (!link) {
@@ -141,15 +159,19 @@ export function DouyinDownloadForm() {
 
   const downloadSelected = () => {
     if (!result?.data) return;
+    const author = result.data.author.name;
+    const title = result.data.video_title;
     Array.from(selectedImages).forEach((url, index) => {
-      downloadFile(url, `${result.data.video_title}-${index + 1}.webp`);
+      downloadFile(url, `[${author}]-${title}-${index + 1}.webp`);
     });
   };
 
   const downloadAll = () => {
     if (!result?.data?.images) return;
+    const author = result.data.author.name;
+    const title = result.data.video_title;
     result.data.images.forEach((img, index) => {
-      downloadFile(img.url, `${result.data.video_title}-${index + 1}.webp`);
+      downloadFile(img.url, `[${author}]-${title}-${index + 1}.webp`);
     });
   };
 
@@ -250,6 +272,8 @@ export function DouyinDownloadForm() {
                     className="flex-1"
                     onClick={() => {
                       if (result.data.video_info) {
+                        const author = result.data.author.name;
+                        const title = result.data.video_title;
                         // 提取后缀
                         const ext =
                           result.data.video_info.includes(".webp")
@@ -259,7 +283,7 @@ export function DouyinDownloadForm() {
                             : "png";
                         downloadFile(
                           result.data.video_info,
-                          `${result.data.video_title || "douyin"}-cover.${ext}`
+                          `[${author}]-${title}-cover.${ext}`
                         );
                       }
                     }}
@@ -268,19 +292,10 @@ export function DouyinDownloadForm() {
                   </Button>
                   <Button
                     className="flex-1"
-                    onClick={() => {
-                      if (result.data.video_url)
-                        // 尝试 a download 下载，兼容性弱，但部分浏览器支持
-                        (() => {
-                          const a = document.createElement("a");
-                          a.href = result.data.video_url || "";
-                          a.target = "_blank";
-                          a.rel = "noopener noreferrer";
-                          a.click();
-                        })();
-                    }}
+                    onClick={downloadVideo}
                   >
-                    跳转播放
+                    <Download className="h-4 w-4 mr-2" />
+                    下载视频
                   </Button>
                 </div>
                 {result.data.video_url && (
