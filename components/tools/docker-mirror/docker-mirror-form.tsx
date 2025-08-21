@@ -57,7 +57,7 @@ export function DockerMirrorForm() {
     const source = getSourceFromImage(imageInput);
     const imageName = getImageNameFromInput(imageInput);
     setDockerPullCommand(`docker pull ${source}/${imageName}`);
-    setDockerTagCommand(`docker tag ${source}/${imageName} ${imageName}`);
+    setDockerTagCommand(`docker tag ${source}/${imageName} ${imageInput}`);
     setDockerRmiCommand(`docker rmi ${source}/${imageName}`);
   };
 
