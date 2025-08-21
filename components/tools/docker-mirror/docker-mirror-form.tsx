@@ -16,7 +16,7 @@ export function DockerMirrorForm() {
   const { toast } = useToast();
 
   const getSourceFromImage = (imageInput: string) => {
-    const currentDomain = 'docker-mirror.20200511.xyz';
+    const currentDomain = 'docker-mirror.czl.net';
     if (imageInput.startsWith("gcr.io/")) {
       return `${currentDomain}/gcr`;
     } else if (imageInput.startsWith("k8s.gcr.io/")) {
