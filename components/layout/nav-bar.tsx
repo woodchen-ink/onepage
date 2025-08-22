@@ -29,7 +29,7 @@ export function NavBar() {
                     {section.name}
                   </button>
                   <div className="absolute left-0 hidden group-hover:block pt-1 w-48 z-50">
-                    <div className="bg-background rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
+                    <div className="bg-background rounded-md shadow-lg border border-border">
                       {section.items.map((item) => {
                         const Icon = item.icon;
                         return (
