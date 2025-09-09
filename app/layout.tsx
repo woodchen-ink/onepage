@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="zh-CN">
       <head>
         <Script
-          defer
+          async
           src="https://analytics.czl.net/script.js"
           data-website-id="0798c98d-ae45-4530-bd46-52465a66f3c3"
           strategy="afterInteractive"

@@ -46,24 +46,6 @@
       "statusCode": 301
     }
   ],
-  "rewrites": [
-    {
-      "source": "/dplayer/*",
-      "destination": "/dplayer"
-    },
-    {
-      "source": "/aliplayer/*",
-      "destination": "/aliplayer"
-    },
-    {
-      "source": "/ckplayer/*",
-      "destination": "/ckplayer"
-    },
-    {
-      "source": "/xgplayer/*",
-      "destination": "/xgplayer"
-    }
-  ],
   "headers": [
     {
       "source": "/*",

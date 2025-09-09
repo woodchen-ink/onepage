@@ -22,15 +22,6 @@ const config: NextConfig = {
     }
     return config
   },
-  // /api接口rewrite到 localhost:8088/api
-  rewrites: async () => {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://localhost:8088/api/:path*',
-      },
-    ]
-  },
 }
 
 export default config
