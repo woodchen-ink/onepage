@@ -18,22 +18,22 @@ export const tools: ToolSection[] = [
     items: [
       { 
         name: "xgplayer", 
-        href: "https://onepage.czl.net/xg/", 
+        href: "/xg", 
         icon: Video
       },
       { 
         name: "aliplayer", 
-        href: "https://onepage.czl.net/aliplayer/", 
+        href: "/aliplayer", 
         icon: Video
       },
       { 
         name: "ckplayer", 
-        href: "https://onepage.czl.net/ckplayer/", 
+        href: "/ckplayer", 
         icon: Video
       },
       { 
         name: "dplayer", 
-        href: "https://onepage.czl.net/dplayer/", 
+        href: "/dplayer", 
         icon: Video
       },
     ],
@@ -43,7 +43,7 @@ export const tools: ToolSection[] = [
     items: [
       { 
         name: "AI绘图", 
-        href: "/tools/cf_worker-text2img/", 
+        href: "/tools/cf_worker-text2img", 
         icon: Image
       },
     ],
@@ -53,27 +53,27 @@ export const tools: ToolSection[] = [
     items: [
       { 
         name: "流量换算器", 
-        href: "/tools/liuliang/", 
+        href: "/tools/liuliang", 
         icon: Calculator
       },
       { 
         name: "时间换算器", 
-        href: "/tools/shijian/", 
+        href: "/tools/shijian", 
         icon: Clock
       },
       { 
         name: "抖音解析下载", 
-        href: "/tools/douyin_download/", 
+        href: "/tools/douyin_download", 
         icon: Download
       },
       { 
         name: "GitHub加速", 
-        href: "/tools/github_proxy/", 
+        href: "/tools/github_proxy", 
         icon: Link
       }, 
       { 
         name: "在线印章生成工具(做旧,防伪等)仅测试", 
-        href: "/tools/seal_generation/", 
+        href: "/tools/seal_generation", 
         icon: Image
       },
     ],
@@ -83,32 +83,32 @@ export const tools: ToolSection[] = [
     items: [
       { 
         name: "SVG转换器", 
-        href: "/tools/svgimg/", 
+        href: "/tools/svgimg", 
         icon: FileImage
       },
       { 
         name: "腾讯图片链接转换", 
-        href: "/tools/tx_img/", 
+        href: "/tools/tx_img", 
         icon: FileImage
       },
       { 
         name: "封面生成工具", 
-        href: "/tools/coverview/", 
+        href: "/tools/coverview", 
         icon: Image
       },
       { 
         name: "印章提取工具", 
-        href: "/tools/extractstamp/", 
+        href: "/tools/extractstamp", 
         icon: FileImage
       },
       { 
         name: "图片压缩工具", 
-        href: "/tools/squoosh/", 
+        href: "/tools/squoosh", 
         icon: Image
       },
       { 
         name: "图片加水印", 
-        href: "/tools/watermark/", 
+        href: "/tools/watermark", 
         icon: Image
       },
     ],
@@ -118,22 +118,22 @@ export const tools: ToolSection[] = [
     items: [
       { 
         name: "EdgeOne缓存清理", 
-        href: "/tools/eo_cleancache/", 
+        href: "/tools/eo_cleancache", 
         icon: Trash2
       },
       { 
         name: "Cloudflare缓存清理", 
-        href: "/tools/cloudflare_cache_cleaner/", 
+        href: "/tools/cloudflare_cache_cleaner", 
         icon: Trash2
       },
       { 
         name: "Docker镜像服务", 
-        href: "/tools/docker_mirror/", 
+        href: "/tools/docker_mirror", 
         icon: Image
       },
       { 
         name: "IP位置信息查询", 
-        href: "/tools/ip_query/", 
+        href: "/tools/ip_query", 
         icon: Globe
       },
     ],
@@ -143,12 +143,12 @@ export const tools: ToolSection[] = [
     items: [
       { 
         name: "提交URL到bing", 
-        href: "/tools/submiturl_bing/", 
+        href: "/tools/submiturl_bing", 
         icon: AppWindow
       },
       { 
         name: "提交URL到百度", 
-        href: "/tools/baidu_url_submit/", 
+        href: "/tools/baidu_url_submit", 
         icon: AppWindow
       },
     ],
