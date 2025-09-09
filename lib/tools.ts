@@ -18,22 +18,22 @@ export const tools: ToolSection[] = [
     items: [
       { 
         name: "xgplayer", 
-        href: "/xg/", 
+        href: "https://onepage.czl.net/xg/", 
         icon: Video
       },
       { 
         name: "aliplayer", 
-        href: "/aliplayer/", 
+        href: "https://onepage.czl.net/aliplayer/", 
         icon: Video
       },
       { 
         name: "ckplayer", 
-        href: "/ckplayer/", 
+        href: "https://onepage.czl.net/ckplayer/", 
         icon: Video
       },
       { 
         name: "dplayer", 
-        href: "/dplayer/", 
+        href: "https://onepage.czl.net/dplayer/", 
         icon: Video
       },
     ],
