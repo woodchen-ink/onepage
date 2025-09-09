@@ -46,12 +46,6 @@
       "statusCode": 301
     }
   ],
-  "rewrites": [
-    {
-      "source": "/aliplayer/*",
-      "destination": "/aliplayer/"
-    }
-  ],
   "headers": [
     {
       "source": "/*",
