@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Languages, Download, Loader2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
 
 export function Text2ImgForm() {
   const [prompt, setPrompt] = useState("cyberpunk cat");
@@ -60,8 +59,16 @@ export function Text2ImgForm() {
         throw new Error("生成图片失败");
       }
 
+      // API返回PNG图片blob
       const blob = await response.blob();
+      console.log("Blob size:", blob.size, "type:", blob.type);
+
+      if (blob.size === 0) {
+        throw new Error("接收到的图片数据为空");
+      }
+
       const url = URL.createObjectURL(blob);
+      console.log("Created blob URL:", url);
       setImageUrl(url);
     } catch (error) {
       console.error("生成图片错误:", error);
@@ -133,20 +140,21 @@ export function Text2ImgForm() {
         )}
 
         {imageUrl && (
-          <div className="relative group aspect-square w-full">
-            <Image
-              src={imageUrl}
-              alt="生成的图片"
-              fill
-              className="object-contain rounded-lg shadow-md"
-              unoptimized
-            />
-            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 rounded-lg">
+          <div className="space-y-2">
+            <div className="relative group w-full border border-border rounded-lg overflow-hidden">
+              <img
+                src={imageUrl}
+                alt="生成的图片"
+                className="w-full h-auto max-h-96 object-contain rounded-lg"
+                onLoad={() => console.log("Native img loaded successfully")}
+                onError={(e) => console.error("Native img load error:", e)}
+              />
               <Button
                 onClick={downloadImage}
                 className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 variant="secondary"
                 size="icon"
+                title="下载图片"
               >
                 <Download className="h-4 w-4" />
               </Button>
