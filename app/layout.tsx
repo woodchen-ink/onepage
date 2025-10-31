@@ -16,17 +16,7 @@ export default function RootLayout({
     <html lang="zh-CN">
       <head>
         <Script
-          id="clarity-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(c,l,a,r,i,t,y){
-                c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-                t=l.createElement(r);t.async=1;t.src="https://analytics.czl.net/ms/t.js?id="+ i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-              })(window, document, "clarity", "script", "tyq5ttvtfh");
-            `,
-          }}
+        async src="https://analytics.czl.net/script.js" data-website-id="0798c98d-ae45-4530-bd46-52465a66f3c3"
         />
       </head>
       <body className="antialiased font-sans">{children}</body>
